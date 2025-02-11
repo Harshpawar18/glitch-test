@@ -17,8 +17,8 @@ def verify():
 @app.route('/webhook', methods=['POST'])
 def receive_message():
     data = request.get_json()
-    # Process the incoming message data as needed
+    print("Received message:", data)  # Logs for debugging
     return 'EVENT_RECEIVED', 200
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(host='0.0.0.0', port=3000)

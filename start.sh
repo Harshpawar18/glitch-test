@@ -6,19 +6,19 @@ set -eu
 # Python buffers stdout. Without this, you won't see what you "print" in the Activity Logs
 export PYTHONUNBUFFERED=true
 
+# Ensure the correct Python version is used
+PYTHON_VERSION=python3
+
 # Install Python 3 virtual env
 VIRTUALENV=.data/venv
 
 if [ ! -d $VIRTUALENV ]; then
-  python3 -m venv $VIRTUALENV
+  $PYTHON_VERSION -m venv $VIRTUALENV
 fi
 
-if [ ! -f $VIRTUALENV/bin/pip ]; then
-  curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | $VIRTUALENV/bin/python
-fi
-
-# Install the requirements
+# Install required packages
+$VIRTUALENV/bin/pip install --upgrade pip
 $VIRTUALENV/bin/pip install -r requirements.txt
 
-# Run a glorious Python 3 server
-$VIRTUALENV/bin/python3 app.py
+# Run the Flask app with Gunicorn
+$VIRTUALENV/bin/gunicorn -b 0.0.0.0:3000 app:app
