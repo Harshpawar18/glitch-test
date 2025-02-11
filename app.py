@@ -12,7 +12,7 @@ def verify():
     if mode == 'subscribe' and token == VERIFY_TOKEN:
         return challenge, 200
     else:
-        return 'Forbidden', 403
+        return 'Forbidden', 403  
 
 @app.route('/webhook', methods=['POST'])
 def receive_message():
